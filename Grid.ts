@@ -1,6 +1,6 @@
 import { Cell } from "./Cell";
 
-class Grid {
+export class Grid {
     private readonly grid: Cell[][];
 
     constructor(readonly rows: number, readonly columns: number) {
