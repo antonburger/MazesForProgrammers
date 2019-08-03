@@ -1,4 +1,4 @@
-import { Cell } from "./cell";
+import { Cell } from "./cell.js";
 
 export class Grid {
     private readonly grid: Cell[][];

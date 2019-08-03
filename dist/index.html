@@ -6,8 +6,18 @@
     <title>Mazes</title>
 </head>
 <body>
-    <canvas id="canvas">
+    <canvas id="canvas" width="500" height="500">
 
     </canvas>
 </body>
+<script type="module">
+    import { Grid } from "./grid.js";
+    import { binaryTree } from "./binarytree.js";
+    import { render } from "./render.js";
+
+    const grid = new Grid(10, 10);
+    binaryTree(grid);
+    const canvas = document.getElementById("canvas");
+    render(grid, canvas.getContext("2d"));
+</script>
 </html>
