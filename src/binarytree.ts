@@ -1,6 +1,6 @@
-import { Grid } from "./Grid";
-import { Cell } from "./Cell";
-import { sample } from "./Utils";
+import { Grid } from "./grid";
+import { Cell } from "./cell";
+import { sample } from "./utils";
 
 export function binaryTree(grid: Grid) {
     for (const cell of grid.eachCell()) {

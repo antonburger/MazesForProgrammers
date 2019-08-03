@@ -1,8 +1,8 @@
 export class Cell {
-    north: Cell;
-    south: Cell;
-    west: Cell;
-    east: Cell;
+    north: Cell | null = null;
+    south: Cell | null = null;
+    west: Cell | null = null;
+    east: Cell | null = null;
     private readonly links = new Map<Cell, boolean>();
 
     constructor(readonly row: number, readonly column: number) {
