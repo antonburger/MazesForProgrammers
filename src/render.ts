@@ -24,7 +24,8 @@ export function render(grid: Grid, context: CanvasRenderingContext2D, cellSize =
         context.restore();
     }
 
-    context.lineCap = "round";
+    context.lineCap = "square";
+    context.lineJoin = "miter";
     context.strokeStyle = "black";
     context.lineWidth = 2;
     context.beginPath();

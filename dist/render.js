@@ -8,7 +8,8 @@ export function render(grid, context, cellSize = defaultCellSize, contentsRender
         }
         context.restore();
     }
-    context.lineCap = "round";
+    context.lineCap = "square";
+    context.lineJoin = "miter";
     context.strokeStyle = "black";
     context.lineWidth = 2;
     context.beginPath();
