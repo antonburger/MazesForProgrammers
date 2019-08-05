@@ -30,3 +30,12 @@ export function render(grid, context, cellSize = defaultCellSize, contentsRender
     context.lineTo(grid.columns * cellSize, 0);
     context.stroke();
 }
+export function makeCombinedRenderer(...renderers) {
+    return function (cell, rect, context) {
+        for (const renderer of renderers) {
+            context.save();
+            renderer(cell, rect, context);
+            context.restore();
+        }
+    };
+}

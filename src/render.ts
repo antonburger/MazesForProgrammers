@@ -48,3 +48,13 @@ export function render(grid: Grid, context: CanvasRenderingContext2D, cellSize =
     context.lineTo(grid.columns * cellSize, 0);
     context.stroke();
 }
+
+export function makeCombinedRenderer(...renderers: ContentsRenderer[]) {
+    return function(cell: Cell, rect: Rectangle, context: CanvasRenderingContext2D) {
+        for (const renderer of renderers) {
+            context.save();
+            renderer(cell, rect, context);
+            context.restore();
+        }
+    }
+}
