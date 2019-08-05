@@ -14,11 +14,16 @@
     import { Grid } from "./grid.js";
     import { binaryTree } from "./binarytree.js";
     import { sidewinder } from "./sidewinder.js";
-    import { render } from "./render.js";
+    import { render, renderDistances } from "./render.js";
+    import simplifiedDijkstra from "./simplifiedDijkstra.js";
 
-    const grid = new Grid(50, 50);
+    const grid = new Grid(10, 10);
     sidewinder(grid);
     const canvas = document.getElementById("canvas");
-    render(grid, canvas.getContext("2d"), 8);
+    const context = canvas.getContext("2d");
+    render(grid, context, 50);
+
+    const distances = simplifiedDijkstra(grid.cellAt(0, 0));
+    renderDistances(distances, context, 50);
 </script>
 </html>

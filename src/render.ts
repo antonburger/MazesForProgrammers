@@ -1,6 +1,9 @@
 import { Grid } from "./grid";
+import { Distances } from "./distances";
 
-export function render(grid: Grid, context: CanvasRenderingContext2D, cellSize = 20) {
+const defaultCellSize = 20;
+
+export function render(grid: Grid, context: CanvasRenderingContext2D, cellSize = defaultCellSize) {
     context.beginPath();
     context.lineCap = "round";
     context.strokeStyle = "black";
@@ -20,4 +23,15 @@ export function render(grid: Grid, context: CanvasRenderingContext2D, cellSize =
         }
     }
     context.stroke();
+}
+
+export function renderDistances(distances: Distances, context: CanvasRenderingContext2D, cellSize = defaultCellSize) {
+    context.beginPath();
+    context.lineCap = "round";
+    context.strokeStyle = "black";
+    context.lineWidth = 1;
+    for (const cell of distances.getCells()) {
+        const distance = distances.get(cell)!;
+        context.strokeText(distance.toString(), (cell.column + 0.5) * cellSize, (cell.row + 0.5) * cellSize, cellSize);
+    }
 }

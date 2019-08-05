@@ -1,24 +1,17 @@
-import { Cell } from "./cell";
-
 export class Distances {
-    private readonly cells = new Map<Cell, number>();
-
-    constructor(root: Cell) {
+    constructor(root) {
+        this.cells = new Map();
         this.cells.set(root, 0);
     }
-
-    get(cell: Cell) {
+    get(cell) {
         return this.cells.get(cell);
     }
-
-    set(cell: Cell, distance: number) {
+    set(cell, distance) {
         this.cells.set(cell, distance);
     }
-
-    contains(cell: Cell) {
+    contains(cell) {
         return this.cells.has(cell);
     }
-
     getCells() {
         return this.cells.keys();
     }
