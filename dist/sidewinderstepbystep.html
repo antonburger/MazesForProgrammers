@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Sidewinder step by step</title>
+  </head>
+  <body>
+    <p id="explanation"></p>
+    <button id="next">Next</button>
+    <canvas id="canvas" width="2000" height="2000"> </canvas>
+    <script type="module">
+      import { Grid } from "./grid.js";
+      import { sidewinderGenerator } from "./sidewinder.js";
+      import { render, makeCombinedRenderer } from "./render.js";
+
+      let [grid, gen] = init();
+
+      document.addEventListener("DOMContentLoaded", handleLoad());
+
+      function init() {
+        const grid = new Grid(5, 5);
+        return [grid, sidewinderGenerator(grid)];
+      }
+
+      function handleLoad() {
+        document
+          .getElementById("next")
+          .addEventListener("click", handleNextClick);
+        renderGrid();
+      }
+
+      function renderGrid(decorators) {
+        const canvas = document.getElementById("canvas");
+        const context = canvas.getContext("2d");
+        context.clearRect(0, 0, 2000, 2000);
+        render(grid, context, 20, undefined, decorators);
+      }
+
+      function handleNextClick() {
+        if (gen) {
+          const step = gen.next();
+          if (step.done) {
+            gen = null;
+            document.getElementById("explanation").innerText = "Done. Next again starts a new maze.";
+            renderGrid();
+            return;
+          }
+          document.getElementById("explanation").innerText = step.value.explanation;
+          renderGrid(step.value.decorators);
+        } else {
+          [grid, gen] = init();
+          document.getElementById("explanation").innerText = "";
+          renderGrid();
+        }
+      }
+    </script>
+  </body>
+</html>

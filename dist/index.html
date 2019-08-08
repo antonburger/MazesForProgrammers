@@ -1,16 +1,20 @@
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Mazes</title>
-</head>
-<body>
-    <canvas id="canvas" width="2000" height="2000">
-
-    </canvas>
-</body>
-<script type="module">
+  </head>
+  <body>
+    <p>
+      <a href="./binarytreestepbystep.html">Binary Tree step by step</a>
+    </p>
+    <p>
+      <a href="./sidewinderstepbystep.html">Sidewinder step by step</a>
+    </p>
+    <canvas id="canvas" width="2000" height="2000"> </canvas>
+  </body>
+  <script type="module">
     import { Grid } from "./grid.js";
     import { binaryTree } from "./binarytree.js";
     import { sidewinder } from "./sidewinder.js";
@@ -27,29 +31,38 @@
     // binaryTree(grid);
     // sidewinder(grid);
     aldousBroder(grid);
-    const distances = simplifiedDijkstra(grid.cellAt(randomInt(grid.columns), randomInt(grid.rows)));
+    const distances = simplifiedDijkstra(
+      grid.cellAt(randomInt(grid.columns), randomInt(grid.rows))
+    );
 
     const canvas = document.getElementById("canvas");
     const context = canvas.getContext("2d");
     // render(grid, context, 25, makeDistanceRenderer(distances, {distances: false, colours: true}));
 
-    const allDistances = Array.from(distances.getCells(), c => [c, distances.get(c)]);
-    const maxDistance = allDistances.reduce(([cOld, dOld], [cNew, dNew]) => dOld < dNew ? [cNew, dNew] : [cOld, dOld]);
+    const allDistances = Array.from(distances.getCells(), c => [
+      c,
+      distances.get(c)
+    ]);
+    const maxDistance = allDistances.reduce(([cOld, dOld], [cNew, dNew]) =>
+      dOld < dNew ? [cNew, dNew] : [cOld, dOld]
+    );
     const path = getPathTo(maxDistance[0], distances);
     const grad = new Gradient(Colour.white, Colour.green);
     grad.addStop(0.2, new Colour(255, 255, 0));
     grad.addStop(0.3, new Colour(0, 0, 0));
     grad.addStop(0.4, new Colour(255, 0, 0));
-    grad.addStop(0.5, new Colour(0, 0, 0));
+    grad.addStop(0.5, new Colour(50, 50, 50));
     grad.addStop(0.6, new Colour(100, 100, 255));
     grad.addStop(0.7, new Colour(0, 0, 0));
     grad.addStop(0.8, new Colour(0, 255, 255));
     const renderer = makeCombinedRenderer(
-        makeDistanceRenderer(distances, {
-            distances: false,
-            colours: true,
-            gradient: grad}),
-        makePathRenderer(path));
-    render(grid, context, 14, renderer);
-</script>
+      makeDistanceRenderer(distances, {
+        distances: false,
+        colours: true,
+        gradient: grad
+      }),
+      makePathRenderer(path)
+    );
+    render(grid, context, 20, renderer);
+  </script>
 </html>

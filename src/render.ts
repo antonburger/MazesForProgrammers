@@ -12,16 +12,31 @@ export interface ContentsRenderer {
     (cell: Cell, rect: Rectangle, context: CanvasRenderingContext2D): void;
 }
 
+export interface CellDecorator {
+    readonly cell: Cell;
+    render: (rect: Rectangle, context: CanvasRenderingContext2D) => void;
+}
+
 const defaultCellSize = 20;
 
-export function render(grid: Grid, context: CanvasRenderingContext2D, cellSize = defaultCellSize, contentsRenderer?: ContentsRenderer) {
+export function render(grid: Grid, context: CanvasRenderingContext2D, cellSize = defaultCellSize, contentsRenderer?: ContentsRenderer, decorators?: Iterable<CellDecorator>) {
     if (contentsRenderer) {
-        context.save();
         for (const cell of grid.eachCell()) {
+            context.save();
             const rect = { x: cell.column * cellSize, y: cell.row * cellSize, w: cellSize, h: cellSize };
             contentsRenderer(cell, rect, context);
+            context.restore();
         }
-        context.restore();
+    }
+
+    if (decorators) {
+        for (const decorator of decorators) {
+            context.save();
+            const cell = decorator.cell;
+            const rect = { x: cell.column * cellSize, y: cell.row * cellSize, w: cellSize, h: cellSize };
+            decorator.render(rect, context);
+            context.restore();
+        }
     }
 
     context.lineCap = "square";
@@ -50,7 +65,7 @@ export function render(grid: Grid, context: CanvasRenderingContext2D, cellSize =
 }
 
 export function makeCombinedRenderer(...renderers: ContentsRenderer[]) {
-    return function(cell: Cell, rect: Rectangle, context: CanvasRenderingContext2D) {
+    return function (cell: Cell, rect: Rectangle, context: CanvasRenderingContext2D) {
         for (const renderer of renderers) {
             context.save();
             renderer(cell, rect, context);

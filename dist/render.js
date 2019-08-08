@@ -1,12 +1,21 @@
 const defaultCellSize = 20;
-export function render(grid, context, cellSize = defaultCellSize, contentsRenderer) {
+export function render(grid, context, cellSize = defaultCellSize, contentsRenderer, decorators) {
     if (contentsRenderer) {
-        context.save();
         for (const cell of grid.eachCell()) {
+            context.save();
             const rect = { x: cell.column * cellSize, y: cell.row * cellSize, w: cellSize, h: cellSize };
             contentsRenderer(cell, rect, context);
+            context.restore();
         }
-        context.restore();
+    }
+    if (decorators) {
+        for (const decorator of decorators) {
+            context.save();
+            const cell = decorator.cell;
+            const rect = { x: cell.column * cellSize, y: cell.row * cellSize, w: cellSize, h: cellSize };
+            decorator.render(rect, context);
+            context.restore();
+        }
     }
     context.lineCap = "square";
     context.lineJoin = "miter";
